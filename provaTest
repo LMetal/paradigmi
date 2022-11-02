@@ -1,0 +1,175 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import rubrica.rubrica;
+
+class TestRubrica {
+	
+	@BeforeEach
+	void setup(){
+		rubrica.crea();
+	}
+	
+	@AfterEach
+	void reset() {
+		rubrica.svuota();
+	}
+	
+	@Test
+	void testCreazione(){
+		rubrica.crea();
+		assertTrue(rubrica.numE1() == 0);
+	}
+	
+	@Test
+	void testSvuota() {
+		rubrica.svuota();
+		assertTrue(rubrica.numE1() == 0);
+	}
+	
+	@Test
+	void aggiungiCorrettamente() {
+		for(int i=0; i<rubrica.MAX_DIM; i++) {
+			int n1 = rubrica.numE1();
+			int ris = rubrica.aggiungi("Gianni="+(char)(i+65));
+			assertEquals(n1+1, rubrica.numE1());
+			assertEquals(1, ris);
+		}
+	}
+	
+	@Test
+	void aggiungOltreMAX(){
+		for(int i=0; i<rubrica.MAX_DIM; i++) {
+			int n1 = rubrica.numE1();
+			rubrica.aggiungi("Gianni="+(char)(i+65));
+		}
+		int ris = rubrica.aggiungi("Giann1=1234");
+		assertEquals(rubrica.MAX_DIM, rubrica.numE1());
+		assertEquals(-1, ris);
+	}
+	
+	@Test
+	void aggiungiDupplicato() {
+		rubrica.aggiungi("Giann1=1234");
+		int ris = rubrica.aggiungi("Giann1=1234");
+		assertEquals(0, ris);
+	}
+	
+	@Test
+	void ritornaPrefisso() {
+		for(int i=0; i<rubrica.MAX_DIM-1; i++) {
+			int n1 = rubrica.numE1();
+			rubrica.aggiungi("Gianni="+(char)(i+65));
+		}
+		rubrica.aggiungi("Paolo=123");
+		ArrayList<String> arr = rubrica.conta("Gia");
+		assertEquals(2, arr.size());
+	}
+	
+	@Test
+	void cancellaPrefisso() {
+		for(int i=0; i<rubrica.MAX_DIM-1; i++) {
+			int n1 = rubrica.numE1();
+			rubrica.aggiungi("Gianni="+(char)(i+65));
+		}
+		rubrica.aggiungi("Paolo=123");
+		
+		rubrica.cancella("Gia");
+		assertEquals(1, rubrica.numE1());
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////
+
+package rubrica;
+
+import java.util.ArrayList;
+
+public class rubrica {
+	private static ArrayList<String> rubrica ;
+	public static final int MAX_DIM = 3;
+	
+	public static void crea() {
+		rubrica = new ArrayList<String>();
+		
+	}
+
+	public static int numE1() {
+		return rubrica.size();
+	}
+
+	public static void svuota() {
+		rubrica.clear();
+	}
+
+	public static int aggiungi(String string) {
+		if(rubrica.contains(string)) return 0;
+		
+		if(rubrica.size() != MAX_DIM) {
+			rubrica.add(string);
+			return 1;
+		}
+		else return -1;
+	}
+
+	public static ArrayList<String> conta(String string) {
+		ArrayList<String> listaPrefisso = new ArrayList<String>();
+		for(int i=0; i<rubrica.size(); i++) {
+			if(rubrica.get(i).contains(string)) {
+				listaPrefisso.add(rubrica.get(i));
+			}
+		}
+		return listaPrefisso;
+	}
+
+	public static void cancella(String string) {
+		for(int i=0; i<rubrica.size(); i++) {
+			if(rubrica.get(i).contains(string)) {
+				rubrica.remove(i);
+			}
+		}
+	}
+		
+	
+}
+
