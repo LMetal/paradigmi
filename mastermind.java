@@ -36,22 +36,22 @@ public class TestMetodi {
 	
 	@Test
 	void testValidaNumBulls () {
-	assertEquals (0 , Giudice.numBulls (" 1234 " , " 5678 " ));
-	assertEquals (1 , Giudice.numBulls (" 1234 " , " 1876 " ));
-	assertEquals (1 , Giudice.numBulls (" 1234 " , " 9874 " ));
-	assertEquals (1 , Giudice.numBulls (" 1234 " , " 9243 " ));
-	assertEquals (1 , Giudice.numBulls (" 9876 " , " 5573 " ));
-	assertEquals (2 , Giudice.numBulls (" 1234 " , " 1256 " ));
-	assertEquals (2 , Giudice.numBulls (" 1234 " , " 1537 " ));
-	assertEquals (2 , Giudice.numBulls (" 1234 " , " 1764 " ));
-	assertEquals (2 , Giudice.numBulls (" 1234 " , " 8237 " ));
-	assertEquals (2 , Giudice.numBulls (" 1234 " , " 9834 " ));
-	assertEquals (3 , Giudice.numBulls (" 9264 " , " 9261 " ));
-	assertEquals (3 , Giudice.numBulls (" 9264 " , " 9284 " ));
-	assertEquals (3 , Giudice.numBulls (" 9264 " , " 9764 " ));
-	assertEquals (3 , Giudice.numBulls (" 9264 " , " 5264 " ));
-	assertEquals (4 , Giudice.numBulls (" 9264 " , " 9264 " ));
-	assertEquals (4 , Giudice.numBulls (" 8725 " , " 8725 " ));
+	assertEquals (0 , Giudice.numBulls ("1234" , "5678" ));
+	assertEquals (1 , Giudice.numBulls ("1234" , "1876" ));
+	assertEquals (1 , Giudice.numBulls ("1234" , "9874" ));
+	assertEquals (1 , Giudice.numBulls ("1234" , "9243" ));
+	assertEquals (1 , Giudice.numBulls ("9876" , "5573" ));
+	assertEquals (2 , Giudice.numBulls ("1234" , "1256" ));
+	assertEquals (2 , Giudice.numBulls ("1234" , "1537" ));
+	assertEquals (2 , Giudice.numBulls ("1234" , "1764" ));
+	assertEquals (2 , Giudice.numBulls ("1234" , "8237" ));
+	assertEquals (2 , Giudice.numBulls ("1234" , "9834" ));
+	assertEquals (3 , Giudice.numBulls ("9264" , "9261" ));
+	assertEquals (3 , Giudice.numBulls ("9264" , "9284" ));
+	assertEquals (3 , Giudice.numBulls ("9264" , "9764" ));
+	assertEquals (3 , Giudice.numBulls ("9264" , "5264" ));
+	assertEquals (4 , Giudice.numBulls ("9264" , "9264" ));
+	assertEquals (4 , Giudice.numBulls ("8725" , "8725" ));
 	}
 }
 
