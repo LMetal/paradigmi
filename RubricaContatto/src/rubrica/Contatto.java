@@ -66,8 +66,6 @@ public class Contatto {
 	}
 	
 	public String toString() {
-		return email + "," + name + "," + numTel();
-	}
-
-	
+		return email + ",\s" + name + ",\s" + numTel();
+	}	
 }

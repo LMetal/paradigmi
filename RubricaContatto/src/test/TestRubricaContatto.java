@@ -135,7 +135,7 @@ public class TestRubricaContatto {
 		String cont2 = c2.toString();
 		
 		
-		assertEquals("leo@321.it,LeoGa,1234", cont1);
-		assertEquals("leo@123.com,,", cont2);
+		assertEquals("leo@321.it, LeoGa, 1234", cont1);
+		assertEquals("leo@123.com, , ", cont2);
 	}
 }

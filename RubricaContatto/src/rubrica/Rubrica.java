@@ -33,19 +33,19 @@ import java.util.ArrayList;
 			return rubrica.size();
 		}
 		
-	    public int aggiungi(Contatto c1) {
-			if(rubrica.size() == MAX_DIM) return -1;
-	    	if( cercaPerEmail(c1.getEmail() ).size() != 0) return 0;
+	    public int aggiungi(Contatto c1) throws RubricaException {
+			if(rubrica.size() == MAX_DIM) throw new RubricaException("Limite raggiunto");
+	    	if(cercaPerEmail(c1.getEmail() ).size() != 0) throw new RubricaException("Elemento uguale");
 	    	
 	    	rubrica.add(c1);
 	    	return 1;
 		}
 	    
-	    public int aggiungi(String email, String nome) {
+	    public int aggiungi(String email, String nome) throws RubricaException {
 	    	return aggiungi(new Contatto(email, nome));
 		}
 	    
-		public int aggiungi(String email) {
+		public int aggiungi(String email) throws RubricaException {
 			return aggiungi(email, "");
 		}
 		
@@ -89,7 +89,7 @@ import java.util.ArrayList;
 	   public String toString() {
 		   String str = "";
 		   for(int i=0; i<rubrica.size(); i++) {
-			   str = str.concat(rubrica.get(i).toString()) + ";";
+			   str = str.concat(rubrica.get(i).toString()) + ";\s";
 		   }
 		   return str;
 	   }   

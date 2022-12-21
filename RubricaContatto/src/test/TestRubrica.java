@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import rubrica.Contatto;
 import rubrica.Rubrica;
+import rubrica.RubricaException;
 
 public class TestRubrica {
 	@BeforeEach
@@ -55,7 +57,7 @@ public class TestRubrica {
     }
     
     @Test
-    void numElem() {
+    void numElem() throws RubricaException {
     	Rubrica r1 = new Rubrica();
     	int e1 = r1.numEl();
     	r1.aggiungi("pippo@123.it", "Leo");
@@ -71,57 +73,60 @@ public class TestRubrica {
     @Test
     void aggiungiEmailNome() {
     	Rubrica r1 = new Rubrica(3);
-    	int esito1 = r1.aggiungi("leo@123.it", "Leo");			//aggiunge
-    	int esito2 = r1.aggiungi("pippo@123.it", "Pippo");		//aggiunge
-    	int esito3 = r1.aggiungi("leo@123.it", "LEO");			//gia' presente
-    	int esito4 = r1.aggiungi("pippo123@456.it", "PIPPO");	//aggiunge
-    	int esito5 = r1.aggiungi("lollo@123.it", "Lollo");		//MAX_DIM raggiunto
+    	RubricaException ex = assertThrows(RubricaException.class, () ->{
+	    	r1.aggiungi("leo@123.it", "Leo");			//aggiunge
+	    	r1.aggiungi("pippo@123.it", "Pippo");		//aggiunge
+	    	r1.aggiungi("leo@123.it", "LEO");			//gia' presente
+    	});
+    	assertEquals("Elemento uguale", ex.getMessage());
     	
-    	assertEquals(1, esito1);
-    	assertEquals(1, esito2);
-    	assertEquals(0, esito3);
-    	assertEquals(1, esito4);
-    	assertEquals(-1, esito5);
+    	ex = assertThrows(RubricaException.class, () ->{
+    		r1.aggiungi("pippo123@456.it", "PIPPO");	//aggiunge
+        	r1.aggiungi("lollo@123.it", "Lollo");		//MAX_DIM raggiunto
+    	});
+    	assertEquals("Limite raggiunto", ex.getMessage());
     }
     
     @Test
     void aggiungiEmail() {
     	Rubrica r1 = new Rubrica(3);
-    	int esito1 = r1.aggiungi("leo@123.it");			//aggiunge
-    	int esito2 = r1.aggiungi("pippo@123.it");		//aggiunge
-    	int esito3 = r1.aggiungi("leo@123.it");			//gia' presente
-    	int esito4 = r1.aggiungi("pippo123@456.it");	//aggiunge
-    	int esito5 = r1.aggiungi("lollo@123.it");		//MAX_DIM raggiunto
+    	RubricaException ex = assertThrows(RubricaException.class, () ->{
+	    	r1.aggiungi("leo@123.it");			//aggiunge
+	    	r1.aggiungi("pippo@123.it");		//aggiunge
+	    	r1.aggiungi("leo@123.it");			//gia' presente
+    	});
+    	assertEquals("Elemento uguale", ex.getMessage());
     	
-    	assertEquals(1, esito1);
-    	assertEquals(1, esito2);
-    	assertEquals(0, esito3);
-    	assertEquals(1, esito4);
-    	assertEquals(-1, esito5);
+    	ex = assertThrows(RubricaException.class, () ->{
+	    	r1.aggiungi("pippo123@456.it");		//aggiunge
+	    	r1.aggiungi("lollo@123.it");		//MAX_DIM raggiunto
+    	});
+    	assertEquals("Limite raggiunto", ex.getMessage());
     }
     
     @Test
-    void aggiungiContatto() {
-    	Rubrica r1 = new Rubrica(3);
-    	int esito11 = r1.aggiungi(new Contatto("leo@123.it"));			//aggiunge
-    	int esito12 = r1.aggiungi(new Contatto("pippo@123.it", "nome"));		//aggiunge
-    	int esito13 = r1.aggiungi(new Contatto("leo@123.it"));			//gia' presente
-    	int esito14 = r1.aggiungi(new Contatto("pippo123@456.it"));	//aggiunge
-    	int esito15 = r1.aggiungi(new Contatto("lollo@123.it"));		//MAX_DIM raggiunto
+    void aggiungiContatto() throws RubricaException {
+    	Rubrica r1 = new Rubrica("pippo", 3);
+    	RubricaException ex = assertThrows(RubricaException.class, () ->{
+	    	r1.aggiungi(new Contatto("leo@123.it"));				//aggiunge
+	    	r1.aggiungi(new Contatto("pippo@123.it", "nome"));		//aggiunge
+	    	r1.aggiungi(new Contatto("leo@123.it"));				//gia' presente
+    	});
+    	assertEquals("Elemento uguale", ex.getMessage());
     	
-    	assertEquals(1, esito11);
-    	assertEquals(1, esito12);
-    	assertEquals(0, esito13);
-    	assertEquals(1, esito14);
-    	assertEquals(-1, esito15);
+    	ex = assertThrows(RubricaException.class, () ->{
+    		r1.aggiungi(new Contatto("pippo123@456.it"));	//aggiunge
+    		r1.aggiungi(new Contatto("lollo@123.it"));		//MAX_DIM raggiunto
+    	});
+    	assertEquals("Limite raggiunto", ex.getMessage());
     	
     	Rubrica r2 = new Rubrica(3);
-    	int esito21 = r2.aggiungi(new Contatto("leo@123.it"));
-    	assertEquals(1, esito21);
+    	r2.aggiungi(new Contatto("leo@123.it"));
+
     }
     
     @Test
-    void cercaPerNome() {
+    void cercaPerNome() throws RubricaException {
     	Rubrica r1 = new Rubrica(10);
     	r1.aggiungi("leo@123.it", "Leo");
     	r1.aggiungi("pippo@123.it", "Pippo");
@@ -139,7 +144,7 @@ public class TestRubrica {
     }
     
     @Test
-    void cercaPerEmail() {
+    void cercaPerEmail() throws RubricaException {
     	Rubrica r1 = new Rubrica(7);
     	r1.aggiungi("leo@123.it", "Leo");
     	r1.aggiungi("pippo@123.it", "Pippo");
@@ -157,7 +162,7 @@ public class TestRubrica {
     }
     
     @Test
-    void eliminaPerNome() {
+    void eliminaPerNome() throws RubricaException {
     	Rubrica r1 = new Rubrica();
     	r1.aggiungi("leo@123.it", "Leo");
     	r1.aggiungi("pippo@123.it", "Pippo");
@@ -182,7 +187,7 @@ public class TestRubrica {
     }
     
     @Test
-    void eliminaPerEmail() {
+    void eliminaPerEmail() throws RubricaException {
     	Rubrica r1 = new Rubrica();
     	r1.aggiungi("leo@123.it", "Leo");
     	r1.aggiungi("pippo@123.it", "Pippo");
@@ -207,7 +212,7 @@ public class TestRubrica {
     }
     
     @Test
-    void rubricaToString() {
+    void rubricaToString() throws RubricaException {
     	Rubrica r1 = new Rubrica();
     	r1.aggiungi("leo@123.it", "Leo");
     	r1.aggiungi("pippo@123.it", "Pippo");
@@ -219,7 +224,7 @@ public class TestRubrica {
     	String rubr1 = r1.toString();
     	String rubr2 = r2.toString();
     	
-    	assertEquals("leo@123.it,Leo,;pippo@123.it,Pippo,;nome@123.it,Nome,;", rubr1);
-    	assertEquals("leo@456.it,Leo,;", rubr2);
+    	assertEquals("leo@123.it, Leo, ; pippo@123.it, Pippo, ; nome@123.it, Nome, ; ", rubr1);
+    	assertEquals("leo@456.it, Leo, ; ", rubr2);
     }
 }
